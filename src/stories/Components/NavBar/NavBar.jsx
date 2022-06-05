@@ -2,7 +2,13 @@ import cntl from "cntl";
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import ESLogo from "../../assets/images/es-logo.png";
+import searchIcon from "../../assets/images/searchIcon.svg";
+import question from "../../assets/images/question.svg";
+import bell from "../../assets/images/bell.svg";
+import cog from "../../assets/images/cog.svg";
+import Avatar from "../../assets/images/avatar.png";
 import Chevron from "../Chevron/Chevron";
+import Input from "../Input/Input";
 
 const containerCN = cntl`
   flex
@@ -26,18 +32,15 @@ const logoCN = cntl`
   h-12
 `;
 
+const iconCN = cntl`
+rounded
+h-10
+filter-green
+`;
+
 const estatespaceTextCN = cntl`
   font-semibold
   ml-2
-`;
-
-const actionIconContainerCN = cntl`
-  hidden
-  lg:flex
-  ml-2
-  flex-initial
-  items-center
-  justify-between
 `;
 
 const avatarCN = cntl`
@@ -49,14 +52,13 @@ const avatarCN = cntl`
   items-center
   justify-center
 `;
-
 const menuButtonCN = cntl`
   pr-10
   pl-2
   py-2
 `;
 
-const NavBar = ({ onLogoutClick, onLogoClick, avatar }) => {
+const NavBar = ({ onLogoutClick, onLogoClick }) => {
   const [showMenu, setShowMenu] = useState(false);
 
   const onLogoKeyDown = (event) => {
@@ -87,31 +89,31 @@ const NavBar = ({ onLogoutClick, onLogoClick, avatar }) => {
       >
         <img className={logoCN} alt="ESLogo" src={ESLogo} />
         <p className={estatespaceTextCN}>ESTATESPACE</p>
+        <Chevron className="w-2 transform rotate-90 ml-2" />
       </div>
-      <div className={actionIconContainerCN} />
-      <div className={actionIconContainerCN}>
-        <button onClick={onShowMenuClick} type="button">
-          {avatar?.image ? null : (
-            <div className="flex items-center mr-2">
-              <div className={avatarCN}>
-                <p className="font-semibold uppercase">{avatar?.initials}</p>
-              </div>
-              <Chevron className="w-2 transform rotate-90 ml-2" />
-            </div>
-          )}
-        </button>
-        {showMenu && (
-          <div className="absolute top-16 right-2 z-50 bg-gray-300 flex flex-col">
-            <button
-              className={menuButtonCN}
-              type="button"
-              onClick={onLogoutClick}
-            >
-              Log Out
-            </button>
+      <Input placeholder="Search EstateSpace" icon={searchIcon} />
+      <button onClick={onShowMenuClick} type="button">
+        <div className="flex items-center mr-2">
+          <img className={iconCN} alt="question" src={question} />
+          <img className={logoCN} alt="bell" src={bell} />
+          <img className={logoCN} alt="cogwheel" src={cog} />
+          <div className={avatarCN}>
+            <img className={logoCN} alt="ESLogo" src={Avatar} />
           </div>
-        )}
-      </div>
+          <Chevron className="w-2 transform rotate-90 ml-2" />
+        </div>
+      </button>
+      {showMenu && (
+        <div className="absolute top-16 right-2 z-50 bg-gray-300 flex flex-col">
+          <button
+            className={menuButtonCN}
+            type="button"
+            onClick={onLogoutClick}
+          >
+            Log Out
+          </button>
+        </div>
+      )}
     </div>
   );
 };

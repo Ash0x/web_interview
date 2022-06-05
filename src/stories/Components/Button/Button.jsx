@@ -87,7 +87,7 @@ Button.propTypes = {
   /**
    * the handler called when the button is clicked
    */
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   /**
    * any CSS classes to apply to the container
    */

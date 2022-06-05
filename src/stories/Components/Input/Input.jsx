@@ -41,6 +41,8 @@ const labelCN = cntl`
 `;
 
 const Input = ({
+  id,
+  name,
   placeholder,
   label,
   icon,
@@ -53,10 +55,6 @@ const Input = ({
   disableClear,
   isRequired,
 }) => {
-  const onInputChange = ({ target: { value: newValue } }) => {
-    onChange(newValue);
-  };
-
   const onClearClick = () => {
     onChange("");
   };
@@ -84,10 +82,12 @@ const Input = ({
       >
         <CustomTag
           style={{ background: `url(${icon}) no-repeat scroll 10px 13px` }}
+          id={id}
+          name={name}
           className={inputCN({ hasIcon: !!icon, isTextarea })}
           placeholder={placeholder}
           type={type}
-          onChange={onInputChange}
+          onChange={onChange}
           value={value}
           onKeyPress={onKeyPress}
         />
@@ -100,6 +100,8 @@ const Input = ({
 };
 
 Input.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
   /**
    * text that appears in the textbox when no user-entered text is preset
    */
@@ -115,7 +117,7 @@ Input.propTypes = {
   /**
    * function called when the input value changes, provides the input value
    */
-  onChange: PropTypes.func,
+  onChange: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   /**
    * function called when a key is pressed
    */
@@ -147,6 +149,8 @@ Input.propTypes = {
 };
 
 Input.defaultProps = {
+  id: undefined,
+  name: undefined,
   placeholder: undefined,
   label: undefined,
   className: undefined,

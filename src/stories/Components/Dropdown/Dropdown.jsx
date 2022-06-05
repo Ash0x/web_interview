@@ -55,6 +55,8 @@ const labelCN = cntl`
 `;
 
 const Dropdown = ({
+  id,
+  name,
   className,
   label,
   options,
@@ -68,6 +70,8 @@ const Dropdown = ({
   <div className={className}>
     {label && <p className={labelCN}>{label}</p>}
     <Select
+      id={id}
+      name={name}
       theme={customTheme}
       styles={customStyles}
       isClearable={isClearable}
@@ -75,7 +79,7 @@ const Dropdown = ({
       placeholder={placeholder}
       defaultValue={defaultValue}
       value={value}
-      onChange={(val) => onChange({ label: val?.label, value: val?.value })}
+      onChange={onChange}
       isDisabled={isDisabled}
       maxMenuHeight={250}
     />
@@ -88,6 +92,8 @@ const optionPropType = PropTypes.shape({
   value: PropTypes.any,
 });
 Dropdown.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
   /**
    * classes to apply to the container div
    */
@@ -111,7 +117,7 @@ Dropdown.propTypes = {
   /**
    * controls the value in the dropdown
    */
-  value: optionPropType,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   /**
    * toggles whether the field presents UI to clear it
    */
@@ -127,12 +133,14 @@ Dropdown.propTypes = {
 };
 
 Dropdown.defaultProps = {
+  id: undefined,
+  name: undefined,
   className: null,
   options: [],
   label: null,
   placeholder: "Select an option...",
   defaultValue: null,
-  value: null,
+  value: {},
   isClearable: true,
   onChange: null,
   isDisabled: false,

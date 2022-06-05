@@ -27,6 +27,7 @@
     "@tailwindcss/postcss7-compat": "^2.0.2",
     "autoprefixer": "^9.8.6",
     "cntl": "^1.0.0",
+    "formik": "^2.2.9",
     "postcss": "^7.0.35",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",

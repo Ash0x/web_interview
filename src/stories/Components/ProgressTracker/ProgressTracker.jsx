@@ -6,7 +6,6 @@ const navContainerCN = cntl`
   flex 
   justify-between 
   items-center 
-  w-2/3 
   mt-8 
   mb-14 
   ml-12 
