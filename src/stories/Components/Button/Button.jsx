@@ -117,6 +117,7 @@ Button.propTypes = {
 
 Button.defaultProps = {
   className: null,
+  onClick: undefined,
   secondary: false,
   tertiary: false,
   destructive: false,

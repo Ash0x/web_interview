@@ -56,7 +56,6 @@ const labelCN = cntl`
 
 const Dropdown = ({
   id,
-  name,
   className,
   label,
   options,
@@ -71,7 +70,6 @@ const Dropdown = ({
     {label && <p className={labelCN}>{label}</p>}
     <Select
       id={id}
-      name={name}
       theme={customTheme}
       styles={customStyles}
       isClearable={isClearable}
@@ -93,7 +91,6 @@ const optionPropType = PropTypes.shape({
 });
 Dropdown.propTypes = {
   id: PropTypes.string,
-  name: PropTypes.string,
   /**
    * classes to apply to the container div
    */
@@ -134,13 +131,12 @@ Dropdown.propTypes = {
 
 Dropdown.defaultProps = {
   id: undefined,
-  name: undefined,
   className: null,
   options: [],
   label: null,
   placeholder: "Select an option...",
   defaultValue: null,
-  value: {},
+  value: null,
   isClearable: true,
   onChange: null,
   isDisabled: false,

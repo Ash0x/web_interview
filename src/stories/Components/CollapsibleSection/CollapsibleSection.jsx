@@ -60,7 +60,7 @@ CollapsibleSection.propTypes = {
   /**
    * the react component to display when section is open
    */
-  children: PropTypes.array,
+  children: PropTypes.arrayOf(PropTypes.element),
   /**
    * optional className to add to the container
    */

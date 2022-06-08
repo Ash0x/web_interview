@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import cntl from "cntl";
-import { useFormik } from "formik";
 import Button from "./stories/Components/Button/Button";
 import CollapsibleSection from "./stories/Components/CollapsibleSection/CollapsibleSection";
 import Input from "./stories/Components/Input/Input";
@@ -14,30 +13,65 @@ const divStyle = cntl`
 w-2/3
 m-3
 `;
-
+let label;
 const App = () => {
-  const formik = useFormik({
-    initialValues: {
-      eSpaceName: "",
-      companyName: "",
-      subscription: "",
-      owner: {
-        name: "",
-        phone: "",
-        email: "",
-      },
-      location: {
-        street: "",
-        suite: "",
-        city: "",
-        country: "",
-        postalCode: "",
-      },
-    },
-    onSubmit: (values) => {
-      console.log(JSON.stringify(values, null, 2));
-    },
+  const [formState, setFormState] = useState({
+    eSpaceName: "",
+    companyName: "",
+    subscription: "",
+    ownername: "",
+    ownerphone: "",
+    owneremail: "",
+    locationstreet: "",
+    locationsuite: "",
+    locationcity: "",
+    locationcountry: "",
+    locationpostalcode: "",
   });
+
+  const [selectedOptions, setSelectedOptions] = useState();
+
+  const handleChange = (event) => {
+    setFormState({
+      ...formState,
+      [event.target.id]: event.target.value,
+    });
+  };
+
+  const handleDropdownChange = (options) => {
+    // temp = options.value.split(" ")[0];
+    setSelectedOptions(options.value);
+    label = options?.label;
+  };
+
+  useEffect(() => {
+    setFormState({
+      ...formState,
+      [selectedOptions]: label,
+    });
+  }, [selectedOptions]);
+
+  const structuredForm = {
+    eSpaceName: formState.eSpaceName,
+    companyName: formState.companyName,
+    subscription: formState.subscription,
+    owner: {
+      name: formState.ownername,
+      phone: formState.ownerphone,
+      email: formState.owneremail,
+    },
+    location: {
+      street: formState.locationstreet,
+      suite: formState.locationsuite,
+      city: formState.locationcity,
+      country: formState.locationcountry,
+      postalCode: formState.locationpostalcode,
+    },
+  };
+
+  const submitForm = () => {
+    console.log(structuredForm);
+  };
 
   return (
     <div className="bg-black h-full w-full justify-center overflow-auto">
@@ -51,145 +85,138 @@ const App = () => {
         <ProgressTracker
           steps={["client info", "logo", "branding", "app store"]}
         />
-        <form onSubmit={formik.handleSubmit}>
+        <form>
           <CollapsibleSection title="Overview">
             <div className="flex flex-row justify-between items-center">
               <Dropdown
                 id="companyName"
-                name="companyName"
                 className={divStyle}
                 label="Company Name"
-                onChange={formik.handleChange}
-                value={formik.values.companyName}
+                onChange={handleDropdownChange}
                 options={Array(5)
                   .fill()
                   .map((a, index) => ({
                     label: `Option ${index + 1}`,
-                    value: `Option ${index + 1}`,
+                    value: `companyName`,
                   }))}
               />
               <Input
                 id="eSpaceName"
-                name="eSpaceName"
                 className={divStyle}
                 label="eSpace Name"
+                onChange={handleChange}
+                value={formState.eSpaceName}
                 placeholder="type name"
                 type="input"
-                onChange={formik.handleChange}
-                value={formik.values.eSpaceName}
+                isRequired
               />
             </div>
             <Dropdown
               id="subscription"
-              name="subscription"
               className={divStyle}
-              onChange={formik.handleChange}
-              value={formik.values.subscription}
               label="Subscription"
+              onChange={handleDropdownChange}
               options={Array(5)
                 .fill()
                 .map((a, index) => ({
-                  label: `Option ${index + 1}`,
-                  value: `Option ${index + 1}`,
+                  label: `subscription ${index + 1}`,
+                  value: `subscription`,
                 }))}
             />
           </CollapsibleSection>
           <CollapsibleSection title="Owner Information">
             <div className="flex flex-row-2 justify-between items-center">
               <Input
-                id="ownerName"
-                name="ownerName"
+                id="ownername"
                 type="input"
-                onChange={formik.handleChange}
-                value={formik.values.owner}
                 className={divStyle}
                 label="Primary Owner"
+                onChange={handleChange}
+                value={formState.ownername}
                 placeholder="Primary Owner..."
+                isRequired
               />
               <Input
-                id="ownerEmail"
-                name="ownerEmail"
+                id="owneremail"
                 type="input"
-                onChange={formik.handleChange}
-                value={formik.values.owner.email}
                 className={divStyle}
                 label="Primary Owner's Email"
+                onChange={handleChange}
+                value={formState.owneremail}
                 placeholder="PO Email..."
+                isRequired
               />
             </div>
             <Input
-              id="ownerName"
-              name="ownerName"
+              id="ownerphone"
               type="input"
-              onChange={formik.handleChange}
-              value={formik.values.owner.phone}
               className={divStyle}
               label="Primary Owner's Phone"
+              onChange={handleChange}
+              value={formState.ownerphone}
               placeholder="PO Phone.."
+              isRequired
             />
           </CollapsibleSection>
           <CollapsibleSection title="Owner Information">
             <div className="flex flex-row justify-between items-center">
               <Input
-                id="streetaddress"
-                name="streetaddress"
+                id="locationstreet"
                 type="input"
-                onChange={formik.handleChange}
-                value={formik.values.location.street}
                 className={divStyle}
                 label="Street Address"
+                onChange={handleChange}
+                value={formState.locationstreet}
                 placeholder="Street Address..."
+                isRequired
               />
               <Input
-                id="city"
-                name="city"
+                id="locationcity"
                 type="input"
-                onChange={formik.handleChange}
-                value={formik.values.location.city}
                 className={divStyle}
                 label="City"
+                onChange={handleChange}
+                value={formState.locationcity}
                 placeholder="City..."
+                isRequired
               />
             </div>
-            <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-row jusstify-between items-center">
               <Input
-                id="suite"
-                name="suite"
+                id="locationsuite"
                 type="input"
-                onChange={formik.handleChange}
-                value={formik.values.location.suite}
                 className={divStyle}
                 label="Suite/Unit"
+                onChange={handleChange}
+                value={formState.locationsuite}
                 placeholder="Suite/Unit..."
               />
               <Dropdown
-                id="country"
-                name="country"
+                id="locationcountry"
                 className={divStyle}
-                onChange={formik.handleChange}
-                value={formik.values.county}
                 label="Country"
+                onChange={handleDropdownChange}
                 options={Array(5)
                   .fill()
                   .map((a, index) => ({
-                    label: `Option ${index + 1}`,
-                    value: `Option ${index + 1}`,
+                    label: `locationcountry ${index + 1}`,
+                    value: `locationcountry`,
                   }))}
               />
             </div>
             <Input
-              id="postalcode"
-              name="postalcode"
+              id="locationpostalcode"
               type="input"
-              onChange={formik.handleChange}
-              value={formik.values.location.postalCode}
               className={divStyle}
               label="Postal Code"
+              onChange={handleChange}
+              value={formState.locationpostalcode}
               placeholder="Postal Code..."
+              isRequired
             />
           </CollapsibleSection>
           <div>
-            <Button type="submit" onClick={formik.handleSubmit} title="Save" />
+            <Button type="submit" onClick={submitForm} title="Save" />
           </div>
         </form>
       </div>
